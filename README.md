@@ -28,7 +28,7 @@ ng --version
 Clone o repositório do GitHub para o seu sistema local:
 
 ```sh
-git clone https://github.com/seu-usuario/investhub.git
+git clone https://github.com/alexsilvaf/investhub-frontend.git
 ```
 
 ### Passo 2: Instalar Dependências
