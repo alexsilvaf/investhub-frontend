@@ -1,27 +1,73 @@
-# InvesthubFrontend
+# InvestHub
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.2.
+InvestHub é uma plataforma de investimentos moderna e intuitiva, construída com Angular e integrada com o Material Dashboard Angular2 para oferecer uma experiência de usuário excepcional.
 
-## Development server
+## Recursos
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Dashboard Interativo**: Visualize e analise dados de investimentos em tempo real através de um painel interativo e fácil de usar.
+- **Análise de Investimentos**: Ferramentas avançadas para análise e gestão de portfólio de investimentos.
+- **Notificações em Tempo Real**: Receba notificações em tempo real sobre as últimas tendências e movimentos do mercado.
+- **Segurança**: Implementamos as melhores práticas de segurança para garantir a proteção de seus dados e investimentos.
 
-## Code scaffolding
+## Pré-requisitos
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Antes de começar, certifique-se de ter o seguinte instalado em seu sistema:
 
-## Build
+- Node.js (versão 14 ou superior)
+- Angular CLI (versão 12 ou superior)
+```sh
+node -v
+npm -v
+ng --version
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Como Começar
 
-## Running unit tests
+### Passo 1: Clonar o Repositório
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Clone o repositório do GitHub para o seu sistema local:
 
-## Running end-to-end tests
+```sh
+git clone https://github.com/seu-usuario/investhub.git
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Passo 2: Instalar Dependências
 
-## Further help
+Após clonar o repositório, navegue até o diretório do projeto e instale as dependências necessárias com o seguinte comando:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```sh
+cd investhub
+npm install
+```
+
+### Passo 3: Iniciar o Servidor de Desenvolvimento
+
+Para iniciar o servidor de desenvolvimento e visualizar o projeto em seu navegador local, execute o seguinte comando:
+
+```sh
+ng serve 
+```
+
+Agora, você pode acessar o aplicativo em seu navegador através do endereço: http://localhost:4200/
+
+### Passo 4: Construir o Projeto para Produção
+
+Quando estiver pronto para construir uma versão de produção do seu projeto, use o seguinte comando:
+
+```sh
+ng build --prod
+```
+
+Isso criará uma versão otimizada do seu projeto na pasta dist/, pronta para ser implantada em um servidor de produção.
+
+## Contribuindo
+Estamos abertos a contribuições! Se você deseja contribuir para o projeto, sinta-se à vontade para criar um Pull Request.
+
+## **Contato**
+Se você tiver alguma dúvida ou sugestão, entre em contato conosco através de seu-email@dominio.com
+
+## Licença
+Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+
+
+**Este README agora inclui todos os passos necessários para configurar e rodar o seu projeto, além de informações sobre como contribuir para o projeto e como entrar em contato com você. Certifique-se de substituir "seu-usuario" e "seu-email@dominio.com" com suas informações reais. Espero que isso ajude!**
