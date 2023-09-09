@@ -64,10 +64,7 @@ Isso criará uma versão otimizada do seu projeto na pasta dist/, pronta para se
 Estamos abertos a contribuições! Se você deseja contribuir para o projeto, sinta-se à vontade para criar um Pull Request.
 
 ## **Contato**
-Se você tiver alguma dúvida ou sugestão, entre em contato conosco através de seu-email@dominio.com
+Se você tiver alguma dúvida ou sugestão, entre em contato conosco através de alex.120999@outlook.com.br
 
 ## Licença
 Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
-
-
-**Este README agora inclui todos os passos necessários para configurar e rodar o seu projeto, além de informações sobre como contribuir para o projeto e como entrar em contato com você. Certifique-se de substituir "seu-usuario" e "seu-email@dominio.com" com suas informações reais. Espero que isso ajude!**
