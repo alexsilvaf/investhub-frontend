@@ -1,0 +1,66 @@
+.chart-container {
+    width: 100%;
+    max-height: 49vh; /* Ajuste conforme necessário */
+    position: relative;
+}
+
+.no-data-message {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 1.2em;
+    background-color: rgba(255, 255, 255, 0.7); /* Opção para adicionar um fundo branco semi-transparente */
+}
+
+.my-chart {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+.main-content{
+    padding-top: 0.5rem;
+    padding-bottom: 0rem;
+}
+
+.table{
+    overflow-y: auto;
+}
+
+.table-responsive{
+    max-height: 200px !important;
+}
+
+/* Define o estilo para a barra de rolagem */
+.table-responsive::-webkit-scrollbar {
+    width: 4px; /* Largura da barra de rolagem vertical */
+}
+
+/* Define o estilo para a "trilha" da barra de rolagem (parte onde a barra se move) */
+.table-responsive::-webkit-scrollbar-track {
+    background-color: #F0F0F0; /* Cor de fundo da trilha */
+}
+
+/* Define o estilo para a "barra" da barra de rolagem (parte móvel) */
+.table-responsive::-webkit-scrollbar-thumb {
+    background-color: #B0B0B0; /* Cor de fundo da barra */
+    border-radius: 2px; /* Arredondamento dos cantos da barra */
+}
+
+/* Define o estilo para a barra de rolagem quando o mouse está sobre ela*/
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background-color: #A0A0A0; /* Cor de fundo da barra ao passar o mouse */
+}
+
+.sticky-header th {
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}

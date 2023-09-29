@@ -1,0 +1,44 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card mb-0">
+            <div class="card-header card-header-success d-flex justify-content-between">
+                <div>
+                    <h4 class="card-title">Meus investimentos</h4>
+                </div>
+                <div>
+                    <h4 class="card-category">{{totalValue}}</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas #lineChart class="my-chart"></canvas>
+                    <div class="no-data-message" *ngIf="!hasChartData">
+                        Você ainda não possui ações
+                    </div>
+                </div>
+                <div class="table-responsive" *ngIf="stockList.length > 0">
+                    <table class="table">
+                        <thead class="sticky-header text-primary">
+                            <th>Ticker</th>
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th>Quantidade</th>
+                            <th>Preço Unitário</th>
+                            <th>Preço Total</th>
+                        </thead>
+                        <tbody class="table-body">
+                            <tr *ngFor="let stock of stockList">
+                                <td>{{ stock.ticker }}</td>
+                                <td>{{ stock.name }}</td>
+                                <td>{{ stock.type }}</td>
+                                <td>{{ stock.quantity }}</td>
+                                <td>{{ stock.currentPrice | currency:'BRL':'symbol':'1.2-2' }}</td>
+                                <td>{{ getFullPrice(stock) | currency:'BRL':'symbol':'1.2-2' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
