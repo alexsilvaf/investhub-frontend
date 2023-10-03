@@ -6,8 +6,11 @@ import { TableListComponent } from 'app/components/table-list/table-list.compone
 import { TypographyComponent } from 'app/components/typography/typography.component';
 import { IconsComponent } from 'app/icons/icons.component';
 import { NotificationsComponent } from 'app/components/notifications/notifications.component';
+import { HomeComponent } from 'app/components/home/home.component';
 
 export const InvestHubLayoutRoutes: Routes = [
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: 'home',      component: HomeComponent },
     { path: 'investments',      component: InvestmentComponent },
     { path: 'user-profile',   component: UserProfileComponent },
     { path: 'table-list',     component: TableListComponent },

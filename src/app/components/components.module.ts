@@ -11,6 +11,7 @@ import { TableListComponent } from './table-list/table-list.component';
 import { TypographyComponent } from './typography/typography.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MaterialModule } from 'app/material/material.module';
+import { HomeComponent } from './home/home.component';
 
 const COMPONENTS = [
   FooterComponent,
@@ -21,7 +22,8 @@ const COMPONENTS = [
   SidebarComponent,
   TableListComponent,
   TypographyComponent,
-  UserProfileComponent
+  UserProfileComponent,
+  HomeComponent,
 ]
 
 @NgModule({
