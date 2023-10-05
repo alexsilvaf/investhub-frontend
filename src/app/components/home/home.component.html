@@ -3,19 +3,19 @@
         <div class="card col-3">
             <div class="card-body d-flex row">
                 <span class="mat-title text-primary text-center col-12">Disponível</span>
-                <span class="mat-title col-12 text-center">R$ {{totalValue}}</span>
+                <span class="mat-title col-12 text-center">{{totalValue | currencyValue}}</span>
             </div>
         </div>
         <div class="card col-3">
             <div class="card-body d-flex row">
                 <span class="mat-title text-primary text-center col-12">Ganhos</span>
-                <span class="mat-title col-12 text-center text-success">R$ {{totalReceive}}</span>
+                <span class="mat-title col-12 text-center text-success">{{totalReceive | currencyValue}}</span>
             </div>
         </div>
         <div class="card col-3">
             <div class="card-body d-flex row">
                 <span class="mat-title text-primary text-center col-12">Gastos</span>
-                <span class="mat-title col-12 text-center text-danger">R$ {{totalExpense}}</span>
+                <span class="mat-title col-12 text-center text-danger">{{totalExpense | currencyValue}}</span>
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
                     <h4 class="card-title">Meu Patrimônio</h4>
                 </div>
                 <div>
-                    <a href="/management" class="card-category d-flex align-items-baseline mat-subheading-1">
+                    <a [routerLink]="['/management']" class="card-category d-flex align-items-baseline mat-subheading-1">
                         Gerenciar Patrimônio
                         <i class="material-icons material-symbols-outlined ml-1">settings</i>
                     </a>

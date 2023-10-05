@@ -12,18 +12,20 @@ import { TypographyComponent } from './typography/typography.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MaterialModule } from 'app/material/material.module';
 import { HomeComponent } from './home/home.component';
+import { ManageAssetsComponent } from './manage-assets/manage-assets.component';
+import { CurrencyValuePipe } from 'app/pipes/currency-value.pipe';
 
 const COMPONENTS = [
+  HomeComponent,
   FooterComponent,
-  NavbarComponent,
-  SidebarComponent,
   InvestmentComponent,
+  NavbarComponent,
   NotificationsComponent,
+  ManageAssetsComponent,
   SidebarComponent,
   TableListComponent,
   TypographyComponent,
   UserProfileComponent,
-  HomeComponent,
 ]
 
 @NgModule({
@@ -34,6 +36,7 @@ const COMPONENTS = [
   ],
   declarations: [
     ...COMPONENTS,
+    CurrencyValuePipe,
   ],
   exports: [
     ...COMPONENTS,

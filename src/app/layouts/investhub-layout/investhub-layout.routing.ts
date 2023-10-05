@@ -7,14 +7,16 @@ import { TypographyComponent } from 'app/components/typography/typography.compon
 import { IconsComponent } from 'app/icons/icons.component';
 import { NotificationsComponent } from 'app/components/notifications/notifications.component';
 import { HomeComponent } from 'app/components/home/home.component';
+import { ManageAssetsComponent } from 'app/components/manage-assets/manage-assets.component';
 
 export const InvestHubLayoutRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home',      component: HomeComponent },
+    { path: 'icons',          component: IconsComponent },
     { path: 'investments',      component: InvestmentComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
+    { path: 'notifications',  component: NotificationsComponent },
+    { path: 'management',  component: ManageAssetsComponent },
     { path: 'table-list',     component: TableListComponent },
     { path: 'typography',     component: TypographyComponent },
-    { path: 'icons',          component: IconsComponent },
-    { path: 'notifications',  component: NotificationsComponent },
+    { path: 'user-profile',   component: UserProfileComponent },
 ];

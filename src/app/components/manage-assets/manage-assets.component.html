@@ -1,0 +1,106 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <div class="d-flex">
+                            <div class="col-6">
+                                <h4 class="card-title ">Gerenciar Patrimônio</h4>
+                                <p class="card-category"> Here is a subtitle for this table</p>
+                            </div>
+                            <div class="col-6 d-flex justify-content-end align-items-center">
+                                <button mat-icon-button (click)="addRow()">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="text-primary">
+                                    <th>Data</th>
+                                    <th>Nome</th>
+                                    <th>Tipo</th>
+                                    <th>Classe</th>
+                                    <th>Parcelas</th>
+                                    <th>Valor</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let asset of assets">
+                                        <td *ngIf="!asset.editMode">{{ asset.date | date:'dd/MM/yyyy' }}</td>
+                                        <td *ngIf="asset.editMode">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Data</mat-label>
+                                                <input matInput [matDatepicker]="picker" [(ngModel)]="asset.date">
+                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </mat-form-field>
+                                        </td>
+
+                                        <td *ngIf="!asset.editMode">{{ asset.name }}</td>
+                                        <td *ngIf="asset.editMode">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Nome</mat-label>
+                                                <input matInput [(ngModel)]="asset.name">
+                                            </mat-form-field>
+                                        </td>
+
+                                        <td *ngIf="!asset.editMode">{{ asset.type }}</td>
+                                        <td *ngIf="asset.editMode">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Tipo</mat-label>
+                                                <mat-select [(value)]="asset.type">
+                                                    <mat-option *ngFor="let type of categoryTypes" [value]="type">{{
+                                                        type }}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </td>
+
+                                        <td *ngIf="!asset.editMode">{{ asset.class }}</td>
+                                        <td *ngIf="asset.editMode">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Classe</mat-label>
+                                                <mat-select [(value)]="asset.class">
+                                                    <mat-option *ngFor="let assetType of assetTypes"
+                                                        [value]="assetType">{{ assetType }}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </td>
+
+                                        <td *ngIf="!asset.editMode">{{ asset.installments }}</td>
+                                        <td *ngIf="asset.editMode">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Parcelas</mat-label>
+                                                <input matInput [(ngModel)]="asset.installments">
+                                            </mat-form-field>
+                                        </td>
+
+                                        <td *ngIf="!asset.editMode">{{ asset.amount | currencyValue }}</td>
+                                        <td *ngIf="asset.editMode">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Valor</mat-label>
+                                                <input matInput [(ngModel)]="asset.amount">
+                                            </mat-form-field>
+                                        </td>
+
+                                        <td *ngIf="asset.editMode">
+                                            <button mat-icon-button (click)="saveRow(asset)">
+                                                <mat-icon>check</mat-icon>
+                                            </button>
+                                            <button mat-icon-button (click)="cancelEdit(asset)">
+                                                <mat-icon>close</mat-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

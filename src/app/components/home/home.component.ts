@@ -124,17 +124,17 @@ export class HomeComponent implements AfterViewInit {
     return this.receiveChartData && this.receiveChartData.length > 0;
   }
 
-  get totalValue(): string {
+  get totalValue(): number {
     let totalReceive = this.categoryReceiveList.reduce((acc, category) => acc + category.totalValue, 0);
     let totalExpense = this.categoryExpenseList.reduce((acc, category) => acc + category.totalValue, 0);
-    return (totalReceive - totalExpense).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return (totalReceive - totalExpense);
   }
 
-  get totalExpense(): string {
-    return this.categoryExpenseList.reduce((acc, category) => acc + category.totalValue, 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  get totalExpense(): number {
+    return this.categoryExpenseList.reduce((acc, category) => acc + category.totalValue, 0);
   }
 
-  get totalReceive(): string {
-    return this.categoryReceiveList.reduce((acc, category) => acc + category.totalValue, 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  get totalReceive(): number {
+    return this.categoryReceiveList.reduce((acc, category) => acc + category.totalValue, 0);
   }
 }
