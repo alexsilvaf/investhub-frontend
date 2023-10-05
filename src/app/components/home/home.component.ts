@@ -24,11 +24,6 @@ export class HomeComponent implements AfterViewInit {
   categoryExpenseList: CategoryChart[] = [];
   
   colors = ['rgb(208, 100, 100)', 'rgb(94, 208, 144)', 'rgb(90, 144, 208)', 'rgb(238, 238, 90)', 'rgb(235, 114, 74)', 'rgb(204, 204, 204)'];
-  
-  //FormField de categoria
-  value: string;
-  previousValue: string;
-  editMode: boolean = false;
 
   //TODO: TROCAR AS CORES DO GRÁFICO.
   ngAfterViewInit() {
@@ -141,33 +136,5 @@ export class HomeComponent implements AfterViewInit {
 
   get totalReceive(): string {
     return this.categoryReceiveList.reduce((acc, category) => acc + category.totalValue, 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-
-  switchEditMode(){
-    this.editMode = !this.editMode;
-    if (this.editMode) {
-      setTimeout(() => {
-        this.categoryField.nativeElement.focus();
-      });
-    }
-  }
-
-  // Quando o input ganha foco, armazene o valor atual para que possamos reverter para ele se a ação for cancelada
-  onFocus() {
-      this.previousValue = this.value;
-  }
-
-  // Função para confirmar o valor
-  confirmValue() {
-      // Aqui você pode adicionar lógica adicional se necessário
-      console.log("Valor confirmado:", this.value);
-      this.onFocus();
-      this.switchEditMode();
-  }
-
-  // Função para cancelar a ação e reverter para o valor anterior
-  cancelValue() {
-      this.value = this.previousValue;
-      this.switchEditMode();
   }
 }
