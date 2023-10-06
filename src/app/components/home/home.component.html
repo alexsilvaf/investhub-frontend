@@ -1,88 +1,78 @@
 <div class="main-content py-0">
-    <div class="space-between col-9">
-        <div class="card col-3">
-            <div class="card-body d-flex row">
-                <span class="mat-title text-primary text-center col-12">Disponível</span>
-                <span class="mat-title col-12 text-center">{{totalValue | currencyValue}}</span>
+    <div class="d-flex justify-content-between flex-wrap col-lg-9">
+        <div class="card col-md-3 col-12 mb-3 md-mt-0">
+            <div class="card-body text-center d-flex flex-column">
+                <span class="mat-title text-primary">Disponível</span>
+                <span class="mat-title">{{totalValue | currencyValue}}</span>
             </div>
         </div>
-        <div class="card col-3">
-            <div class="card-body d-flex row">
-                <span class="mat-title text-primary text-center col-12">Ganhos</span>
-                <span class="mat-title col-12 text-center text-success">{{totalReceive | currencyValue}}</span>
+        <div class="card col-md-3 col-12 mb-3 md-mt-0">
+            <div class="card-body text-center d-flex flex-column">
+                <span class="mat-title text-primary">Ganhos</span>
+                <span class="mat-title text-success">{{totalReceive | currencyValue}}</span>
             </div>
         </div>
-        <div class="card col-3">
-            <div class="card-body d-flex row">
-                <span class="mat-title text-primary text-center col-12">Gastos</span>
-                <span class="mat-title col-12 text-center text-danger">{{totalExpense | currencyValue}}</span>
+        <div class="card col-md-3 col-12 mb-3 md-mt-0">
+            <div class="card-body text-center d-flex flex-column">
+                <span class="mat-title text-primary">Gastos</span>
+                <span class="mat-title text-danger">{{totalExpense | currencyValue}}</span>
             </div>
         </div>
     </div>
-    <div class="container-fluid d-flex">
-        <div class="card col-9 mb-0">
+    <div class="container-fluid d-flex flex-wrap align-items-stretch">
+        <div class="card col-lg-9 col-12 mb-3">
             <div class="card-header card-header-success d-flex justify-content-between">
-                <div>
-                    <h4 class="card-title">Meu Patrimônio</h4>
-                </div>
-                <div>
-                    <a [routerLink]="['/management']" class="card-category d-flex align-items-baseline mat-subheading-1">
-                        Gerenciar Patrimônio
-                        <i class="material-icons material-symbols-outlined ml-1">settings</i>
-                    </a>
-                </div>
+                <h4 class="card-title">Meu Patrimônio</h4>
+                <a [routerLink]="['/management']" class="card-category d-flex align-items-baseline mat-subheading-1">
+                    Gerenciar Patrimônio
+                    <i class="material-icons material-symbols-outlined ml-1">settings</i>
+                </a>
             </div>
-            <div class="card-body d-flex" style="height: 500px">
-                <div class="d-flex col-6 border-right">
-                    <div class="row d-flex w-100 h-100 align-items-center">
-                        <span class="w-100 text-center mat-title text-primary" style="height: 30px">Ganhos</span>
-                        <div class="w-50 h-75 align-self-center mat-subheading-2 flex-grow-1 d-flex flex-column justify-content-center">
-                            <div *ngFor="let category of categoryReceiveList" class="my-1 d-flex">
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <span class="legend-color mr-2" [ngStyle]="{'background-color': getColorForCategory(category)}"></span>
-                                </div>
-                                <div>
+            <div class="card-body d-flex flex-wrap">
+                <div class="row mx-0 d-flex col-md-6 custom-border-right">
+                    <span class="w-100 text-center mat-title text-primary" style="height: 30px">Ganhos</span>
+                    <div class="d-flex flex-column justify-content-center align-items-center w-100 h-75">
+                        <canvas #receiveChart></canvas>
+                        <div class="text-center mt-3" *ngIf="!hasChartData">
+                            Você ainda não possui ações
+                        </div>
+                        <div class="text-center mt-3 w-100" *ngIf="hasChartData">
+                            <div class="d-flex align-items-center mat-subheading-2 justify-content-center no-wrap-scroll">
+                                <div *ngFor="let category of categoryReceiveList" class="mx-2 d-flex align-items-center">
+                                    <span class="legend-color mr-1 rounded-circle" [ngStyle]="{'background-color': getColorForCategory(category)}"></span>
                                     {{category.name}}
                                 </div>
-                            </div>                       
-                        </div>
-                        <div class="chart-container w-50 h-75 flex-grow-1 align-self-center d-flex flex-column justify-content-center align-items-center">
-                            <canvas #receiveChart></canvas>
-                            <div class="no-data-message" *ngIf="!hasChartData">
-                                Você ainda não possui ações
                             </div>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
-                <div class="d-flex col-6">
-                    <div class="row d-flex w-100 h-100 align-items-center">
-                        <span class="w-100 text-center mat-title text-primary" style="height: 30px">Gastos</span>
-                        <div class="chart-container w-50 h-75 flex-grow-1 align-self-center d-flex flex-column justify-content-center align-items-center">
-                            <canvas #expenseChart></canvas>
-                            <div class="no-data-message" *ngIf="!hasChartData">
-                                Você ainda não possui ações
-                            </div>
+                <div class="row mx-0 d-flex col-md-6">
+                    <span class="w-100 text-center mat-title text-primary mb-3">Gastos</span>
+                    <div class="d-flex flex-column justify-content-center align-items-center w-100 h-75">
+                        <canvas #expenseChart></canvas>
+                        <div class="text-center mt-3" *ngIf="!hasChartData">
+                            Você ainda não possui ações
                         </div>
-                        <div class="w-50 h-75 align-self-center mat-subheading-2 flex-grow-1 d-flex flex-column justify-content-center">
-                            <div *ngFor="let category of categoryExpenseList" class="my-1 d-flex justify-content-end">
-                                <div>
+                        <div class="text-center mt-3 w-100" *ngIf="hasChartData">
+                            <div class="d-flex align-items-center mat-subheading-2 justify-content-center no-wrap-scroll">
+                                <div *ngFor="let category of categoryExpenseList" class="mx-2 d-flex align-items-center">
+                                    <span class="legend-color mr-1 rounded-circle" [ngStyle]="{'background-color': getColorForCategory(category)}"></span>
                                     {{category.name}}
                                 </div>
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <span class="legend-color mr-0 ml-2" [ngStyle]="{'background-color': getColorForCategory(category)}"></span>
-                                </div>
-                            </div>                         
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card col-3 ml-3 mb-0">
-            <div class="card-body">
-                <div class="table-responsive" *ngIf="categoryList.length > 0">
-                    <h4 class="text-primary mat-headline">Informações Relevantes no Mês</h4>
-                    <p>Aqui deve ter informações do tipo: esse mês você paga a ultima parcela de x</p>
-                    <p>Você receberá x de dividendos</p>
+        <div class="col-lg-3 col-12 mb-3 d-flex flex-wrap">
+            <div class="card ml-lg-3 mb-0">
+                <div class="card-body">
+                    <div class="table-responsive" *ngIf="categoryList.length > 0">
+                        <h4 class="text-primary mat-headline">Informações Relevantes no Mês</h4>
+                        <p>Aqui deve ter informações do tipo: esse mês você paga a ultima parcela de x</p>
+                        <p>Você receberá x de dividendos</p>
+                    </div>
                 </div>
             </div>
         </div>
