@@ -37,13 +37,13 @@
                             Você ainda não possui ações
                         </div>
                         <div class="text-center mt-3 w-100" *ngIf="hasChartData">
-                            <div class="d-flex align-items-center mat-subheading-2 justify-content-center no-wrap-scroll">
+                            <div class="d-flex align-items-center mat-subheading-2 justify-content-center no-wrap-scroll" #scrollDiv1>
                                 <div *ngFor="let category of categoryReceiveList" class="mx-2 d-flex align-items-center">
                                     <span class="legend-color mr-1 rounded-circle" [ngStyle]="{'background-color': getColorForCategory(category)}"></span>
                                     {{category.name}}
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
                 <div class="row mx-0 d-flex col-md-6">
@@ -54,7 +54,7 @@
                             Você ainda não possui ações
                         </div>
                         <div class="text-center mt-3 w-100" *ngIf="hasChartData">
-                            <div class="d-flex align-items-center mat-subheading-2 justify-content-center no-wrap-scroll">
+                            <div class="d-flex align-items-center mat-subheading-2 justify-content-center no-wrap-scroll" #scrollDiv2>
                                 <div *ngFor="let category of categoryExpenseList" class="mx-2 d-flex align-items-center">
                                     <span class="legend-color mr-1 rounded-circle" [ngStyle]="{'background-color': getColorForCategory(category)}"></span>
                                     {{category.name}}
@@ -65,8 +65,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-12 mb-3 d-flex flex-wrap">
-            <div class="card ml-lg-3 mb-0">
+        <div class="col-lg-3 col-12 mb-3 d-flex flex-wrap md-px-0">
+            <div class="card ml-lg-3 mb-0 md-mt-0">
                 <div class="card-body">
                     <div class="table-responsive" *ngIf="categoryList.length > 0">
                         <h4 class="text-primary mat-headline">Informações Relevantes no Mês</h4>

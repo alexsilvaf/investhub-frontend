@@ -19,12 +19,16 @@
 .no-wrap-scroll {
     white-space: nowrap;
     overflow-x: auto;
+    flex-shrink: 0;
     width: 100%;
-    height: 50px;
 }
 
 .no-wrap-scroll::-webkit-scrollbar {
     height: 8px;
+}
+
+.no-wrap-scroll.has-scrollbar {
+    justify-content: flex-start !important;
 }
 
 .no-wrap-scroll::-webkit-scrollbar-thumb {
@@ -35,7 +39,6 @@
 .no-wrap-scroll::-webkit-scrollbar-track {
     background-color: #f5f5f5;
 }
-
 
 .custom-border-right {
     border-right: 1px solid #dee2e6; /* Ajuste a cor conforme necessário */
@@ -48,5 +51,10 @@
 
     .md-mt-0 {
         margin-top: 0 !important;
+    }
+
+    .md-px-0 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 }
