@@ -18,6 +18,8 @@ export class InvestHubLayoutComponent implements OnInit {
     private _router: Subscription;
     private lastPoppedUrl: string;
     private yScrollStack: number[] = [];
+    private psMainPanel: PerfectScrollbar;
+    private psSidebar: PerfectScrollbar;
 
     constructor(public location: Location, private router: Router) { }
 
@@ -136,27 +138,28 @@ export class InvestHubLayoutComponent implements OnInit {
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-        const maxHeight = this.calculateTotalHeight;
-        if (this.mainPanel.nativeElement.offsetHeight > maxHeight) {
-            this.mainPanel.nativeElement.style.height = `${maxHeight}px`;
-        }
-    }    
-
-    get calculateTotalHeight() {
-        const nextElement = this.routerOutlet.nativeElement.nextElementSibling;
-        const nextElementHeight = nextElement ? nextElement.offsetHeight : 0;
-        
-        const totalHeight = nextElementHeight;
-        return totalHeight;
+        this.runOnRouteChange();
     }
 
     runOnRouteChange(): void {
         if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
             const elemMainPanel = <HTMLElement>document.querySelector('.main-panel');
-            const ps = new PerfectScrollbar(elemMainPanel);
-            ps.update();
+            const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
+    
+            // Destrua as instâncias anteriores
+            if (this.psMainPanel) {
+                this.psMainPanel.destroy();
+            }
+            if (this.psSidebar) {
+                this.psSidebar.destroy();
+            }
+    
+            // Crie novas instâncias
+            this.psMainPanel = new PerfectScrollbar(elemMainPanel);
+            this.psSidebar = new PerfectScrollbar(elemSidebar);
         }
     }
+    
     isMac(): boolean {
         let bool = false;
         if (navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('IPAD') >= 0) {
