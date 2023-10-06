@@ -136,7 +136,7 @@ export class InvestHubLayoutComponent implements OnInit {
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-        const maxHeight = this.calculateTotalHeight();
+        const maxHeight = this.calculateTotalHeight;
         if (this.mainPanel.nativeElement.offsetHeight > maxHeight) {
             this.mainPanel.nativeElement.style.height = `${maxHeight}px`;
         }
