@@ -37,7 +37,7 @@ Após clonar o repositório, navegue até o diretório do projeto e instale as d
 
 ```sh
 cd investhub
-npm install --legacy-per-deps
+npm install --legacy-peer-deps
 ```
 
 ### Passo 3: Iniciar o Servidor de Desenvolvimento
