@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AssetType } from 'app/enums/asset.type.model';
 import { CategoryType } from 'app/enums/category.type.model';
 
@@ -8,40 +9,59 @@ import { CategoryType } from 'app/enums/category.type.model';
   styleUrls: ['./manage-assets.component.css']
 })
 export class ManageAssetsComponent implements OnInit {
-
-
   assetTypes = Object.values(AssetType);
   categoryTypes = Object.values(CategoryType);
+  preLoadedType: 'receive' | 'expense';
 
   assets = [
-    { 
-      id: 1, 
+    {
+      id: 1,
       date: new Date(),
-      name: 'Geraldo', 
+      name: 'Geraldo',
       type: CategoryType.RECEIVE,
       class: AssetType.LOAN,
       installments: 0,
       amount: 0,
       editMode: false
     }
-    // ... você pode adicionar outras linhas iniciais aqui, se necessário.
   ];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+    const savedState = localStorage.getItem('savedState');
+    const state = savedState ? JSON.parse(savedState) : history.state;
+
+    if (state && state.type) {
+      history.state.type = state.type;
+      if (state.type === 'receive') {
+      } else if (state.type === 'expense') {
+      }
+    }
+
+    localStorage.removeItem('savedState');
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler(event: Event) {
+    const savedState = localStorage.getItem('savedState');
+    const state = savedState ? JSON.parse(savedState) : history.state;
+
+    if (state && state.type || this.preLoadedType) {
+      localStorage.setItem('savedState', JSON.stringify(state));
+    }
   }
 
   addRow() {
-    this.assets.push({ 
-      id: null, 
+    this.assets.push({
+      id: null,
       date: new Date(),
       name: '',
       type: null,
       class: null,
       installments: 0,
       amount: 0,
-      editMode: true 
+      editMode: true
     });
   }
 

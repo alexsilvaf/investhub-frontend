@@ -2,20 +2,40 @@
     <div class="d-flex justify-content-between flex-wrap col-lg-9">
         <div class="card col-md-3 col-12 mb-3 md-mt-0">
             <div class="card-body text-center d-flex flex-column">
-                <span class="mat-title text-primary">Disponível</span>
-                <span class="mat-title">{{totalValue | currencyValue}}</span>
+                <div class="w-100 d-flex align-items-center">
+                    <div class="flex-grow-1 text-center">
+                        <span class="mat-title text-primary">Disponível</span>
+                    </div>
+                </div>
+                <span class="mat-title d-flex flex-grow-1 justify-content-center align-items-center mb-0">{{totalValue | currencyValue}}</span>
             </div>
         </div>
         <div class="card col-md-3 col-12 mb-3 md-mt-0">
             <div class="card-body text-center d-flex flex-column">
-                <span class="mat-title text-primary">Ganhos</span>
-                <span class="mat-title text-success">{{totalReceive | currencyValue}}</span>
+                <div class="w-100 d-flex align-items-center">
+                    <div class="flex-grow-1 text-center">
+                        <span class="mat-title text-primary ml-4">Ganhos</span>
+                    </div>
+                    <div class="cursor-pointer" (click)="navigateToManagment('receive')">
+                        <i class="material-icons material-symbols-outlined" style="font-size: 20px;">settings</i>
+                    </div>
+                </div>
+                
+                <span class="mat-title d-flex flex-grow-1 justify-content-center align-items-center mb-0 text-success">{{totalReceive | currencyValue}}</span>
             </div>
         </div>
         <div class="card col-md-3 col-12 mb-3 md-mt-0">
             <div class="card-body text-center d-flex flex-column">
-                <span class="mat-title text-primary">Gastos</span>
-                <span class="mat-title text-danger">{{totalExpense | currencyValue}}</span>
+                <div class="w-100 d-flex align-items-center">
+                    <div class="flex-grow-1 text-center">
+                        <span class="mat-title text-primary ml-4">Gastos</span>
+                    </div>
+                    <div class="cursor-pointer" (click)="navigateToManagment('expense')">
+                        <i class="material-icons material-symbols-outlined" style="font-size: 20px;">settings</i>
+                    </div>
+                </div>
+                
+                <span class="mat-title d-flex flex-grow-1 justify-content-center align-items-center mb-0 text-danger">{{totalExpense | currencyValue}}</span>
             </div>
         </div>
     </div>
@@ -23,20 +43,18 @@
         <div class="card col-lg-9 col-12 mb-3">
             <div class="card-header card-header-success d-flex justify-content-between">
                 <h4 class="card-title">Meu Patrimônio</h4>
-                <a [routerLink]="['/management']" class="card-category d-flex align-items-baseline mat-subheading-1">
-                    Gerenciar Patrimônio
-                    <i class="material-icons material-symbols-outlined ml-1">settings</i>
-                </a>
             </div>
             <div class="card-body d-flex flex-wrap">
                 <div class="row mx-0 d-flex col-md-6 custom-border-right">
                     <span class="w-100 text-center mat-title text-primary" style="height: 30px">Ganhos</span>
                     <div class="d-flex flex-column justify-content-center align-items-center w-100 h-75">
                         <canvas #receiveChart></canvas>
-                        <div class="text-center mt-3" *ngIf="!hasChartData">
-                            Você ainda não possui ações
+                        <div class="text-center mt-0" *ngIf="!hasReceiveChartData">
+                            <div class="d-flex flex-column justify-content-center align-items-center" style="height: 368px">
+                                Você ainda não possui ganhos
+                            </div>
                         </div>
-                        <div class="text-center mt-3 w-100" *ngIf="hasChartData">
+                        <div class="text-center mt-3 w-100" *ngIf="hasReceiveChartData">
                             <div class="d-flex align-items-center mat-subheading-2 justify-content-center no-wrap-scroll" #scrollDiv1>
                                 <div *ngFor="let category of categoryReceiveList" class="mx-2 d-flex align-items-center">
                                     <span class="legend-color mr-1 rounded-circle" [ngStyle]="{'background-color': getColorForCategory(category)}"></span>
@@ -50,10 +68,12 @@
                     <span class="w-100 text-center mat-title text-primary mb-3">Gastos</span>
                     <div class="d-flex flex-column justify-content-center align-items-center w-100 h-75">
                         <canvas #expenseChart></canvas>
-                        <div class="text-center mt-3" *ngIf="!hasChartData">
-                            Você ainda não possui ações
+                        <div class="text-center mt-0" *ngIf="!hasExpenseChartData">
+                            <div class="d-flex flex-column justify-content-center align-items-center" style="height: 368px">
+                                Você ainda não possui gastos
+                            </div>
                         </div>
-                        <div class="text-center mt-3 w-100" *ngIf="hasChartData">
+                        <div class="text-center mt-3 w-100" *ngIf="hasExpenseChartData">
                             <div class="d-flex align-items-center mat-subheading-2 justify-content-center no-wrap-scroll" #scrollDiv2>
                                 <div *ngFor="let category of categoryExpenseList" class="mx-2 d-flex align-items-center">
                                     <span class="legend-color mr-1 rounded-circle" [ngStyle]="{'background-color': getColorForCategory(category)}"></span>
@@ -67,11 +87,14 @@
         </div>
         <div class="col-lg-3 col-12 mb-3 d-flex flex-wrap md-px-0">
             <div class="card ml-lg-3 mb-0 md-mt-0">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
+                    <h4 class="text-primary mat-headline text-center">Informações do Mês</h4>
                     <div class="table-responsive" *ngIf="categoryList.length > 0">
-                        <h4 class="text-primary mat-headline">Informações Relevantes no Mês</h4>
                         <p>Aqui deve ter informações do tipo: esse mês você paga a ultima parcela de x</p>
                         <p>Você receberá x de dividendos</p>
+                    </div>
+                    <div class="table-responsive d-flex felx-column flex-grow-1 justify-content-center align-items-center" *ngIf="categoryList.length == 0">
+                        <p>Você não possui informações relevantes no mês</p>
                     </div>
                 </div>
             </div>
