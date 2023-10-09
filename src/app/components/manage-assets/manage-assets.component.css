@@ -1,0 +1,12 @@
+.icon-font{
+    font-size: 20px;
+}
+
+::ng-deep .custom-snackbar {
+    background-color: rgb(208, 100, 100) !important;
+    color: white !important;
+}
+
+::ng-deep .custom-snackbar .mat-simple-snackbar-action {
+    color: white !important;
+}

@@ -15,6 +15,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
+import {MatTabsModule} from '@angular/material/tabs';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -48,6 +49,8 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     MatSnackBarModule,
     MatTooltipModule,
+    MatTableModule,
+    MatTabsModule,
     MatSlideToggleModule
   ],
   exports: [
@@ -67,6 +70,7 @@ import { FormsModule } from '@angular/forms';
     MatCardModule,
     MatMenuModule,
     MatTableModule,
+    MatTabsModule,
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
@@ -74,6 +78,8 @@ import { FormsModule } from '@angular/forms';
     MatSnackBarModule,
     MatTooltipModule,
     MatSlideToggleModule,
+    MatTableModule,
+    MatSnackBarModule,
     FormsModule
   ]
 })

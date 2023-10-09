@@ -169,7 +169,8 @@ export class HomeComponent implements AfterViewInit {
   }
 
   navigateToManagment(type: 'receive' | 'expense') {
-    this.router.navigate(['/management'], { state: { type: type } });
+    let categotyType = type == 'receive' ? CategoryType.RECEIVE : CategoryType.EXPENSE;
+    this.router.navigate(['/management'], { state: { type: categotyType } });
   }
 
   get hasReceiveChartData(): boolean {
