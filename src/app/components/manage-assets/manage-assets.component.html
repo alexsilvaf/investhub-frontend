@@ -18,7 +18,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <mat-tab-group (selectedTabChange)="onTabChanged($event)">
+                            <mat-tab-group (selectedTabChange)="onTabChanged($event)" [selectedIndex]="getSelectedIndex">
                                 <mat-tab *ngFor="let categoryType of categoryTypes" [label]="categoryType"
                                     (click)="changeType(categoryType)">
                                     <table class="table">

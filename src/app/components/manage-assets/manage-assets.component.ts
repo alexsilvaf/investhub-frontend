@@ -15,7 +15,7 @@ export class ManageAssetsComponent implements OnInit {
   categoryTypes = Object.values(CategoryType);
   selectedCategoryType: CategoryType;
 
-  assets = [
+  assets = [ //Movimentações Financeiras ao invés de asset
     {
       id: 1,
       date: new Date(),
@@ -42,29 +42,26 @@ export class ManageAssetsComponent implements OnInit {
     private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    const savedState = localStorage.getItem('savedState');
+    const savedState = sessionStorage.getItem('savedState');
     const state = savedState ? JSON.parse(savedState) : history.state;
 
     if (state && state.type) {
       history.state.type = state.type;
       this.selectedCategoryType = state.type;
-      if (state.type === 'receive') {
-      } else if (state.type === 'expense') {
-      }
     } else {
       this.selectedCategoryType = CategoryType.RECEIVE;
     }
 
-    localStorage.removeItem('savedState');
+    sessionStorage.removeItem('savedState');
   }
 
   @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event: Event) {
-    const savedState = localStorage.getItem('savedState');
+    const savedState = sessionStorage.getItem('savedState');
     const state = savedState ? JSON.parse(savedState) : history.state;
 
     if (state && state.type || this.selectedCategoryType) {
-      localStorage.setItem('savedState', JSON.stringify(state));
+      sessionStorage.setItem('savedState', JSON.stringify(state));
     }
   }
 
@@ -130,6 +127,10 @@ export class ManageAssetsComponent implements OnInit {
         this.assets.splice(index, 1);
       }
     }
+  }
+
+  get getSelectedIndex(){
+    return this.categoryTypes.indexOf(this.selectedCategoryType);
   }
 
 }
