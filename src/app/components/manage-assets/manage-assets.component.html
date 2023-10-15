@@ -28,7 +28,7 @@
                                             <th>Classe</th>
                                             <th>Parcelas</th>
                                             <th>Valor</th>
-                                            <th style="width: 100px"></th>
+                                            <th style="min-width: 100px; width: 100px"></th>
                                         </thead>
                                         <tbody>
                                             <ng-container *ngFor="let asset of assets">
@@ -36,10 +36,10 @@
                                                     <td *ngIf="!asset.editMode">{{ asset.date | date:'dd/MM/yyyy' }}
                                                     </td>
                                                     <td *ngIf="asset.editMode">
-                                                        <mat-form-field appearance="fill">
+                                                        <mat-form-field appearance="outline">
                                                             <mat-label>Data</mat-label> <!---->
                                                             <input matInput [matDatepicker]="picker"
-                                                                [(ngModel)]="asset.date">
+                                                                [(ngModel)]="edittedAsset.date">
                                                             <mat-datepicker-toggle matSuffix
                                                                 [for]="picker"></mat-datepicker-toggle>
                                                             <mat-datepicker #picker></mat-datepicker>
@@ -48,38 +48,39 @@
 
                                                     <td *ngIf="!asset.editMode">{{ asset.name }}</td>
                                                     <td *ngIf="asset.editMode">
-                                                        <mat-form-field appearance="fill">
+                                                        <mat-form-field appearance="outline">
                                                             <mat-label>Nome</mat-label>
-                                                            <input matInput [(ngModel)]="asset.name">
+                                                            <input matInput [(ngModel)]="edittedAsset.name" (keydown.enter)="saveRow(asset)" #nameInput>
                                                         </mat-form-field>
                                                     </td>
 
                                                     <td *ngIf="!asset.editMode">{{ asset.class }}</td>
                                                     <td *ngIf="asset.editMode">
-                                                        <mat-form-field appearance="fill">
+                                                        <mat-form-field appearance="outline">
                                                             <mat-label>Classe</mat-label>
-                                                            <mat-select [(value)]="asset.class">
+                                                            <mat-select [(value)]="edittedAsset.class">
                                                                 <mat-option *ngFor="let assetType of assetTypes"
                                                                     [value]="assetType">{{ assetType }}</mat-option>
                                                             </mat-select>
                                                         </mat-form-field>
                                                     </td>
 
-                                                    <td *ngIf="!asset.editMode">{{ asset.installments }}</td>
-                                                    <td *ngIf="asset.editMode">
-                                                        <mat-form-field appearance="fill">
+                                                    <td *ngIf="!asset.editMode">{{ asset.installments | integerValue }}</td>
+                                                    <td *ngIf="asset.editMode" style="max-width: 80px;">
+                                                        <mat-form-field appearance="outline">
                                                             <mat-label>Parcelas</mat-label>
-                                                            <input matInput [(ngModel)]="asset.installments">
+                                                            <input matInput [(ngModel)]="edittedAsset.installments" integerNumber [maxValue]="999999" (keydown.enter)="saveRow(asset)">
                                                         </mat-form-field>
                                                     </td>
 
                                                     <td *ngIf="!asset.editMode">{{ asset.amount | currencyValue }}</td>
                                                     <td *ngIf="asset.editMode">
-                                                        <mat-form-field appearance="fill">
-                                                            <mat-label>Valor</mat-label>
-                                                            <input matInput [(ngModel)]="asset.amount">
+                                                        <mat-form-field appearance="outline">
+                                                          <mat-label>Valor</mat-label>
+                                                          <span matPrefix class="currency-prefix">R$</span>
+                                                          <input type="text" matInput [(ngModel)]="edittedAsset.amount" doubleNumber [maxValue]="99999999999999" (keydown.enter)="saveRow(asset)">
                                                         </mat-form-field>
-                                                    </td>
+                                                      </td>
 
                                                     <td *ngIf="!asset.editMode">
                                                         <button mat-icon-button (click)="editRow(asset)">

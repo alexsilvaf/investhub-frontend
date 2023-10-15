@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
@@ -11,9 +11,13 @@ import { CategoryType } from 'app/enums/category.type.model';
   styleUrls: ['./manage-assets.component.css']
 })
 export class ManageAssetsComponent implements OnInit {
+  @ViewChild('nameInput') nameInput: ElementRef;
+  
   assetTypes = Object.values(AssetType);
   categoryTypes = Object.values(CategoryType);
   selectedCategoryType: CategoryType;
+
+  edittedAsset: any;
 
   assets = [ //Movimentações Financeiras ao invés de asset
     {
@@ -65,18 +69,27 @@ export class ManageAssetsComponent implements OnInit {
     }
   }
 
+  get getSelectedIndex(){
+    return this.categoryTypes.indexOf(this.selectedCategoryType);
+  }
+
   onTabChanged(event: MatTabChangeEvent) {
     this.selectedCategoryType = this.categoryTypes[event.index];
+    this.assets?.map(asset => asset.editMode = false);
   }
 
   addRow() {
     let assetOnEditMode = this.assets.find(asset => asset.editMode);
     if (assetOnEditMode) {
-      this.snackBar.open('Salve ou cancele a edição do ativo atual.', 'Fechar', {
-        duration: 3000, // Duração em milissegundos. A mensagem desaparecerá após esse tempo.
-        verticalPosition: 'bottom', // 'top' para exibir no topo
-        horizontalPosition: 'right', // 'start' ou 'end' para exibir à esquerda ou à direita
-      });
+      if(this.validateEditForm()){
+        return;
+      } else {
+        this.snackBar.open('Salve ou cancele a edição do ativo atual.', 'Fechar', {
+          duration: 3000, // Duração em milissegundos. A mensagem desaparecerá após esse tempo.
+          verticalPosition: 'bottom', // 'top' para exibir no topo
+          horizontalPosition: 'right', // 'start' ou 'end' para exibir à esquerda ou à direita
+        });
+      }
       return;
     }
 
@@ -90,47 +103,81 @@ export class ManageAssetsComponent implements OnInit {
       amount: 0,
       editMode: true
     });
+    this.edittedAsset = Object.assign({}, this.assets[this.assets.length - 1]);
+
+    setTimeout(() => {
+      if(this.nameInput){
+        this.nameInput.nativeElement.focus();
+      }
+    });
   }
 
+
   editRow(row) {
+    if(this.validateEditForm()){
+      return;
+    }
+    this.assets?.map(asset => asset.editMode = false);
+    
+    this.edittedAsset = Object.assign({}, row);
     row.editMode = true;
+    //timeSet
+    setTimeout(() => {
+      if(this.nameInput){
+        this.nameInput.nativeElement.focus();
+      }
+    }, 0);
   }
 
   deleteRow(row) {
     const index = this.assets.indexOf(row);
     if (index > -1) {
       this.assets.splice(index, 1);
-    }
-  }
-
-  saveRow(row) {
-    if (!row.name || !row.type || !row.class) { //Caso algum destes atributos sejam nulos, a linha não será salva e o usuário receberá a mensagem.
-      this.snackBar.open('Por favor, preencha todos os campos obrigatórios.', 'Fechar', {
+      this.snackBar.open('Ativo excluído com sucesso.', 'Desfazer', {
         duration: 3000,
         verticalPosition: 'bottom',
         horizontalPosition: 'right',
         panelClass: ['custom-snackbar']
+      }).onAction().subscribe(() => {
+        this.assets.splice(index, 0, row);
       });
-      return;
     }
-
-    row.editMode = false;
   }
 
+  saveRow(row) {
+    if (this.validateEditForm()) {
+      return;
+    }
+    
+    row = Object.assign(row, this.edittedAsset);
+    row.id = row.id || this.assets.length + 1;
+    row.editMode = false;
+    console.log(row)
+  }
 
   cancelEdit(row) {
     const index = this.assets.indexOf(row);
     if (index > -1) {
       if (row.id) {
-        row.editMode = false
+        row.editMode = false;
       } else {
         this.assets.splice(index, 1);
       }
     }
   }
 
-  get getSelectedIndex(){
-    return this.categoryTypes.indexOf(this.selectedCategoryType);
+  validateEditForm(): boolean {
+    let isEditMode = this.assets.find(asset => asset.editMode);
+    if(isEditMode && (!this.edittedAsset?.name || !this.edittedAsset?.type || !this.edittedAsset?.class)){
+      this.snackBar.open('Por favor, preencha todos os campos obrigatórios.', 'Fechar', {
+        duration: 3000,
+        verticalPosition: 'bottom',
+        horizontalPosition: 'right',
+        panelClass: ['custom-snackbar']
+      });
+      return true;
+    }
+    return false;
   }
 
 }

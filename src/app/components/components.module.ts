@@ -14,6 +14,9 @@ import { MaterialModule } from 'app/material/material.module';
 import { HomeComponent } from './home/home.component';
 import { ManageAssetsComponent } from './manage-assets/manage-assets.component';
 import { CurrencyValuePipe } from 'app/pipes/currency-value.pipe';
+import { DoubleNumberDirective } from 'app/directives/format-currency-number/double-number.directive';
+import { IntegerNumberDirective } from 'app/directives/integer-number/integer-number.directive';
+import { IntegerValuePipe } from 'app/pipes/number-value';
 
 const COMPONENTS = [
   HomeComponent,
@@ -29,14 +32,17 @@ const COMPONENTS = [
 ]
 
 @NgModule({
+  declarations: [
+    ...COMPONENTS,
+    CurrencyValuePipe,
+    IntegerValuePipe,
+    DoubleNumberDirective,
+    IntegerNumberDirective,
+  ],
   imports: [
     CommonModule,
     RouterModule,
     MaterialModule,
-  ],
-  declarations: [
-    ...COMPONENTS,
-    CurrencyValuePipe,
   ],
   exports: [
     ...COMPONENTS,
