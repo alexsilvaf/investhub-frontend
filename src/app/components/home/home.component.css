@@ -16,6 +16,12 @@
     cursor: pointer;
 }
 
+.my-chart {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
 .no-wrap-scroll {
     white-space: nowrap;
     overflow-x: auto;

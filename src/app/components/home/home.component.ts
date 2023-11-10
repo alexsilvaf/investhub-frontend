@@ -5,6 +5,8 @@ import { ColorService } from 'app/services/color.service';
 import { Chart, registerables } from 'chart.js';
 import { HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { CategoryService } from 'app/services/categoria.service';
+import { CategoryHistory } from 'app/models/category-history.model ';
 
 Chart.register(...registerables);
 
@@ -14,73 +16,70 @@ Chart.register(...registerables);
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements AfterViewInit {
-  @ViewChild('receiveChart') receiveChart: ElementRef;
-  @ViewChild('expenseChart') expenseChart: ElementRef;
+  @ViewChild('receiveExpenseChart') receiveExpenseChart: ElementRef;
+  @ViewChild('historyChart') historyChart: ElementRef;
   @ViewChild('scrollDiv1') scrollDiv1: ElementRef;
   @ViewChild('scrollDiv2') scrollDiv2: ElementRef;
 
-  categoryList: CategoryChart[] = [];
-  categoryReceiveList: CategoryChart[] = [];
-  categoryExpenseList: CategoryChart[] = [];
+  receiveList: CategoryChart[] = [];
+  categoryHistoryList: CategoryHistory[] = [];
 
   colors = [];
 
   constructor(
+    private categoryService: CategoryService,
     private colorService: ColorService,
     private router: Router) { }
 
   ngAfterViewInit() {
-    var receiveChart = this.receiveChart?.nativeElement?.getContext('2d');
-    var expenseChart = this.expenseChart?.nativeElement?.getContext('2d');
+    var receiveExpenseChart = this.receiveExpenseChart?.nativeElement?.getContext('2d');
+    var historyChart = this.historyChart?.nativeElement?.getContext('2d');
 
-    this.categoryList = [
-      {
-        name: 'Salário',
-        type: CategoryType.RECEIVE,
-        totalValue: 4000,
-      },
-      {
-        name: 'Dividendos',
-        type: CategoryType.RECEIVE,
-        totalValue: 800,
-      },
-      {
-        name: 'Alimentação',
-        type: CategoryType.EXPENSE,
-        totalValue: 1200,
-      },
-      {
-        name: 'Transporte',
-        type: CategoryType.EXPENSE,
-        totalValue: 200,
-      },
-      {
-        name: 'Moradia',
-        type: CategoryType.EXPENSE,
-        totalValue: 800,
-      },
-      {
-        name: 'Lazer',
-        type: CategoryType.EXPENSE,
-        totalValue: 500,
-      },
-      {
-        name: 'Outros',
-        type: CategoryType.EXPENSE,
-        totalValue: 500,
-      },
-    ]
-    if (this.categoryList && this.categoryList.length > 0) {
-      this.colors = this.categoryList.map((_, index) => this.colorService.getColorForIndex(index));
+    this.receiveList = this.categoryService.getAllReceive();
+    this.categoryHistoryList = this.categoryService.getHistoryExpenseChartModel();
 
-      this.categoryReceiveList = this.categoryList.filter(category => category.type == CategoryType.RECEIVE);
-      this.categoryExpenseList = this.categoryList.filter(category => category.type == CategoryType.EXPENSE);
+    var myHistoryChart = new Chart(historyChart, {
+      type: 'bar', // Mudar para gráfico de barras
+      data: {
+        labels: this.categoryHistoryList.map(category => category.month), // Asumindo que 'month' já está no formato 'mm/aa'
+        datasets: [{
+          data: this.categoryHistoryList.map(category => category.totalValue),
+          backgroundColor: 'rgba(144, 238, 144, 0.4)', // Cor de fundo das barras (verde claro transparente)
+          borderColor: 'rgba(144, 238, 144, 1)', // Cor da borda das barras (verde claro opaco)
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false // Remove a legenda do gráfico
+          }
+        },
+        scales: {
+          y: {
+            display: false, // Remove as legendas do eixo y (esquerda)
+            beginAtZero: true // Começa a escala no zero
+          },
+          x: {
+            // Configurações adicionais para o eixo x, se necessário
+            grid: {
+              display: false // Isso removerá as linhas de grade verticais do eixo x
+            }
+          }
+        }
+      }
+    });
 
-      var myReceiveChart = new Chart(receiveChart, {
+    if (this.receiveList && this.receiveList.length > 0) {
+      this.colors = this.receiveList.map((_, index) => this.colorService.getColorForIndex(index));
+
+      var myReceiveExpenseChart = new Chart(receiveExpenseChart, {
         type: 'pie',
         data: {
           datasets: [{
-            data: this.categoryList.filter(category => category.type == CategoryType.RECEIVE).map(category => category.totalValue),
+            data: [this.totalExpense, this.totalReceive],
             backgroundColor: this.colors,
             borderWidth: 1 // Você pode ajustar a largura da borda conforme necessário
           }]
@@ -89,44 +88,52 @@ export class HomeComponent implements AfterViewInit {
           plugins: {
             legend: {
               position: 'left'
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  // Você pode modificar o que é mostrado na tooltip aqui se necessário
+                  return context.label + ': ' + context.formattedValue;
+                }
+              }
+            }
+          },
+          onHover: (event, chartElement) => {
+            const canvas = myReceiveExpenseChart.canvas;
+            canvas.style.cursor = chartElement.length ? 'pointer' : 'default';
+          },
+          onClick: (evt, element) => {
+            if (element.length > 0) {
+              var index = element[0].index;
+              // Verifica qual dado foi clicado e realiza a ação correspondente
+              if (index === 0) {
+                // Redireciona para a página de despesas
+                this.navigateToManagment('expense');
+              } else if (index === 1) {
+                // Redireciona para a página de receitas
+                this.navigateToManagment('receive');
+              }
             }
           }
         }
       });
 
-      var myExpenseChart = new Chart(expenseChart, {
-        type: 'pie',
-        data: {
-          datasets: [{
-            data: this.categoryList.filter(category => category.type == CategoryType.EXPENSE).map(category => category.totalValue),
-            backgroundColor: this.colors,
-            borderWidth: 1 // Você pode ajustar a largura da borda conforme necessário
-          }]
-        },
-        options: {
-          plugins: {
-            legend: {
-              position: 'left'
-            }
-          }
-        }
-      });
     } else {
 
       // Se os gráficos já estiverem inicializados, destrua-os
-      if (myReceiveChart) {
-        myReceiveChart.destroy();
+      if (myReceiveExpenseChart) {
+        myReceiveExpenseChart.destroy();
       }
-      if (myExpenseChart) {
-        myExpenseChart.destroy();
+      if (myHistoryChart) {
+        myHistoryChart.destroy();
       }
 
       // Defina a altura dos elementos do gráfico como 0
-      if (this.receiveChart?.nativeElement) {
-        this.receiveChart.nativeElement.style.height = '0px';
+      if (this.receiveExpenseChart?.nativeElement) {
+        this.receiveExpenseChart.nativeElement.style.height = '0px';
       }
-      if (this.expenseChart?.nativeElement) {
-        this.expenseChart.nativeElement.style.height = '0px';
+      if (this.historyChart?.nativeElement) {
+        this.historyChart.nativeElement.style.height = '0px';
       }
     }
     setTimeout(() => {
@@ -134,15 +141,15 @@ export class HomeComponent implements AfterViewInit {
     }, 0);
   }
 
-  getColorForCategory(category: CategoryChart): string {
+  /*getColorForCategory(category: CategoryChart): string {
     let index: number;
     if (category.type == CategoryType.RECEIVE) {
-      index = this.categoryReceiveList.indexOf(category);
+      index = this.receiveList.indexOf(category);
     } else {
-      index = this.categoryExpenseList.indexOf(category);
+      index = this.receiveList.indexOf(category);
     }
     return this.colors[index % this.colors.length];
-  }
+  }*/
 
   checkForScrollbar(scrollDivs: ElementRef[]) {
     scrollDivs.forEach(scrollDiv => {
@@ -173,25 +180,23 @@ export class HomeComponent implements AfterViewInit {
     this.router.navigate(['/management'], { state: { type: categotyType } });
   }
 
-  get hasReceiveChartData(): boolean {
-    return this.categoryReceiveList && this.categoryReceiveList.length > 0;
+  get hasReceiveExpenseChartData(): boolean {
+    return this.receiveList && this.receiveList.length > 0;
   }
 
-  get hasExpenseChartData(): boolean {
-    return this.categoryExpenseList && this.categoryExpenseList.length > 0;
+  get hasHistoryData(): boolean {
+    return this.categoryHistoryList && this.categoryHistoryList.length > 0;
   }
 
   get totalValue(): number {
-    let totalReceive = this.categoryReceiveList.reduce((acc, category) => acc + category.totalValue, 0);
-    let totalExpense = this.categoryExpenseList.reduce((acc, category) => acc + category.totalValue, 0);
-    return (totalReceive - totalExpense);
+    return (this.totalReceive - this.totalExpense);
   }
 
   get totalExpense(): number {
-    return this.categoryExpenseList.reduce((acc, category) => acc + category.totalValue, 0);
+    return this.categoryHistoryList[this.categoryHistoryList.length - 1]?.totalValue || 0;
   }
 
   get totalReceive(): number {
-    return this.categoryReceiveList.reduce((acc, category) => acc + category.totalValue, 0);
+    return this.receiveList.reduce((acc, category) => acc + category.totalValue, 0);
   }
 }

@@ -8,7 +8,7 @@ import { CategoryType } from 'app/enums/category.type.model';
 @Component({
   selector: 'app-manage-assets',
   templateUrl: './manage-assets.component.html',
-  styleUrls: ['./manage-assets.component.css']
+  styleUrls: ['./manage-assets.component.css'],
 })
 export class ManageAssetsComponent implements OnInit {
   @ViewChild('nameInput') nameInput: ElementRef;
