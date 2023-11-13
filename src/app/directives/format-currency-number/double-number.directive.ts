@@ -51,21 +51,19 @@ export class DoubleNumberDirective implements ControlValueAccessor {
   @HostListener('input', ['$event'])
   onInputChange(event: any) {
     const inputValue: string = event.target.value;
-
-    let formattedValue: string = this.formatNumber(inputValue);
-    let numberValue = this.convertFormattedValueToNumber(formattedValue);
+    let numberValue = this.convertFormattedValueToNumber(inputValue);
 
     // Verifique se o valor está fora dos limites
     if (this.minValue !== undefined && numberValue < this.minValue) {
-      formattedValue = this.formatNumber(this.minValue.toString());
       numberValue = this.minValue;
+    } else if (this.maxValue !== undefined && numberValue > this.maxValue) {
+      // Se o valor exceder o máximo, reverta para o valor anterior e pare a execução
+      this.renderer.setProperty(this.el.nativeElement, 'value', this.formatNumber(this.el.nativeElement.value));
+      return;
     }
 
-    if (this.maxValue !== undefined && numberValue > this.maxValue) {
-      return; // Simplesmente retorne e não atualize o input
-    }
-
-    const cursorPosition: number = event.target.selectionStart; 
+    const formattedValue: string = this.formatNumber(inputValue);
+    const cursorPosition: number = event.target.selectionStart;
     // Atualiza o valor do elemento com o valor formatado
     this.renderer.setProperty(this.el.nativeElement, 'value', formattedValue);
 
@@ -80,6 +78,7 @@ export class DoubleNumberDirective implements ControlValueAccessor {
       this.onChange(numberValue);
     }
   }
+
 
   /**
    * Calculate the new cursor position after number formatting.
@@ -96,8 +95,8 @@ export class DoubleNumberDirective implements ControlValueAccessor {
    * @returns The new cursor position adjusted for the formatting.
    */
   private calculateCursorPosition(originalPosition: number, originalValue: string, formattedValue: string): number {
-      const lengthDifference = formattedValue.length - originalValue.length;
-      return originalPosition + lengthDifference;
+    const lengthDifference = formattedValue.length - originalValue.length;
+    return originalPosition + lengthDifference;
   }
 
   /**
@@ -108,7 +107,7 @@ export class DoubleNumberDirective implements ControlValueAccessor {
    */
   writeValue(value: any): void {
     let formattedValue = '';
-    
+
     // Verifique o tipo de valor
     if (typeof value === 'number') {
       // Converta o número decimal em uma string formatada
@@ -116,7 +115,7 @@ export class DoubleNumberDirective implements ControlValueAccessor {
     } else if (typeof value === 'string') {
       formattedValue = this.formatNumber(value);
     }
-    
+
     this.renderer.setProperty(this.el.nativeElement, 'value', formattedValue);
   }
 
@@ -139,24 +138,28 @@ export class DoubleNumberDirective implements ControlValueAccessor {
   private formatNumber(inputValue: string): string {
     let cleanedValue = inputValue.replace(/\D/g, ""); // Remove tudo exceto números
 
-    // Separando os centavos do valor principal
-    const mainValue = cleanedValue.substring(0, cleanedValue.length - 2) || "0";
-    const centavos = cleanedValue.substring(cleanedValue.length - 2, cleanedValue.length) || "00";
+    // Garantindo que haja pelo menos dois dígitos para formar um valor decimal correto
+    cleanedValue = cleanedValue.padStart(2, '0');
 
-    cleanedValue = mainValue + "." + centavos;
+    // Posicionando corretamente os centavos
+    const mainValue = cleanedValue.substring(0, cleanedValue.length - 2);
+    const centavos = cleanedValue.substring(cleanedValue.length - 2);
 
-    // Converta o valor limpo em um número decimal
-    let decimalValue = parseFloat(cleanedValue);
+    // Juntando o valor principal com os centavos
+    const fullValue = mainValue + "." + centavos;
+
+    // Convertendo o valor limpo em um número decimal
+    let decimalValue = parseFloat(fullValue);
 
     // Checar os limites de minValue e maxValue
     if (this.minValue !== undefined && decimalValue < this.minValue) {
-        decimalValue = this.minValue;
+      decimalValue = this.minValue;
     }
     if (this.maxValue !== undefined && decimalValue > this.maxValue) {
-        decimalValue = this.maxValue;
+      decimalValue = this.maxValue;
     }
 
-    // Formatação do valor para exibir no input
+    // Formatando o valor para exibir no input
     return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(decimalValue);
   }
 
