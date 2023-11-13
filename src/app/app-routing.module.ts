@@ -20,10 +20,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ 
+  imports: [
     CommonModule,
     BrowserModule,
-    RouterModule.forRoot(routes)],
+    RouterModule.forRoot(routes, {
+      useHash: true
+    })],
   exports: []
 })
 export class AppRoutingModule { }
