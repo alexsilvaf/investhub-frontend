@@ -5,8 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "prebuild": "npm install --legacy-peer-deps",
-    "build": "npm run build",
-    "prod-build": "npm run prebuild && npm run build",
+    "build": "ng build",
+    "prod-build": "npm run prebuild && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
