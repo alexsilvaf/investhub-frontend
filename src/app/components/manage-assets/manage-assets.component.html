@@ -17,54 +17,71 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="col-10">
-                                <div class="row">
-                                    <div class="col-12 col-md-3">
-                                        <mat-form-field appearance="standard" class="w-100" id="date"> <!-- Alterado aqui -->
-                                            <mat-label>Data De - Data Até</mat-label>
-                                            <mat-date-range-input [rangePicker]="picker">
-                                                <input matStartDate placeholder="Start date">
-                                                <input matEndDate placeholder="End date">
-                                            </mat-date-range-input>
-                                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                            <mat-date-range-picker #picker></mat-date-range-picker>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <mat-form-field appearance="standard" class="w-100 input-text">
-                                            <mat-label>Nome</mat-label>
-                                            <input matInput>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <mat-form-field appearance="standard" class="w-100 input-text">
-                                            <mat-label>Classe</mat-label>
-                                            <input matInput>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <mat-form-field appearance="standard" class="w-100 input-text">
-                                            <mat-label>Valor Mínimo</mat-label>
-                                            <input matInput>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <mat-form-field appearance="standard" class="w-100 input-text">
-                                            <mat-label>Valor Máximo</mat-label>
-                                            <input matInput>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <button mat-raised-button color="primary">Buscar</button>
-                            </div>
+                        <div style="height: 20rem">
+                            <canvas #assetTypeChart class="my-chart"></canvas>
                         </div>
                         <div class="table-responsive">
-                            <mat-tab-group (selectedTabChange)="onTabChanged($event)" [selectedIndex]="getSelectedIndex">
+                            <mat-tab-group (selectedTabChange)="onTabChanged($event)"
+                                [selectedIndex]="getSelectedIndex">
                                 <mat-tab *ngFor="let categoryType of categoryTypes" [label]="categoryType"
                                     (click)="changeType(categoryType)">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-10">
+                                            <div class="row">
+                                                <div class="col-12 col-md-3 d-flex">
+                                                    <div class="col-6">
+                                                        <mat-form-field class="date-picker">
+                                                            <mat-label>Data de</mat-label>
+                                                            <input matInput [matDatepicker]="">
+                                                            <mat-datepicker></mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <mat-form-field class="date-picker">
+                                                            <mat-label>Data até</mat-label>
+                                                            <input matInput [matDatepicker]="">
+                                                            <mat-datepicker></mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-3">
+                                                    <mat-form-field appearance="standard" class="w-100 input-text">
+                                                        <mat-label>Nome</mat-label>
+                                                        <input matInput>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-12 col-md-2">
+                                                    <mat-form-field appearance="standard" class="w-100 input-text">
+                                                        <mat-label>Classe</mat-label>
+                                                        <input matInput>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-12 col-md-2">
+                                                    <mat-form-field appearance="standard" class="w-100 input-text">
+                                                        <mat-label>Valor Mínimo</mat-label>
+                                                        <input type="text" matInput doubleNumber [maxValue]="9999999">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-12 col-md-2">
+                                                    <mat-form-field appearance="standard" class="w-100 input-text">
+                                                        <mat-label>Valor Máximo</mat-label>
+                                                        <input type="text" matInput doubleNumber [maxValue]="9999999">
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <button mat-raised-button color="primary">Buscar</button>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; flex-wrap: wrap;">
+                                        <button mat-button *ngFor="let type of assetTypes"
+                                            (click)="toggleSelection(type)"
+                                            [ngClass]="{'selected': isSelected(type), 'not-selected': !isSelected(type)}">
+                                            {{ type }}
+                                        </button>
+                                    </div>
+
                                     <table class="table">
                                         <thead class="text-bold">
                                             <th style="width: 140px;">Data</th>
@@ -77,7 +94,8 @@
                                         <tbody>
                                             <ng-container *ngFor="let asset of assets">
                                                 <tr *ngIf="asset.type === categoryType">
-                                                    <td *ngIf="!asset.editMode" class="text-nowrap">{{ asset.date | date:'dd/MM/yyyy' }}
+                                                    <td *ngIf="!asset.editMode" class="text-nowrap">{{ asset.date |
+                                                        date:'dd/MM/yyyy' }}
                                                     </td>
                                                     <td *ngIf="asset.editMode">
                                                         <mat-form-field appearance="outline">
@@ -90,15 +108,18 @@
                                                         </mat-form-field>
                                                     </td>
 
-                                                    <td *ngIf="!asset.editMode" class="text-nowrap">{{ asset.name }}</td>
+                                                    <td *ngIf="!asset.editMode" class="text-nowrap">{{ asset.name }}
+                                                    </td>
                                                     <td *ngIf="asset.editMode">
                                                         <mat-form-field appearance="outline">
                                                             <mat-label>Nome</mat-label>
-                                                            <input matInput [(ngModel)]="edittedAsset.name" (keydown.enter)="saveRow(asset)" #nameInput>
+                                                            <input matInput [(ngModel)]="edittedAsset.name"
+                                                                (keydown.enter)="saveRow(asset)" #nameInput>
                                                         </mat-form-field>
                                                     </td>
 
-                                                    <td *ngIf="!asset.editMode" class="text-nowrap">{{ asset.class }}</td>
+                                                    <td *ngIf="!asset.editMode" class="text-nowrap">{{ asset.class }}
+                                                    </td>
                                                     <td *ngIf="asset.editMode">
                                                         <mat-form-field appearance="outline">
                                                             <mat-label>Classe</mat-label>
@@ -109,22 +130,29 @@
                                                         </mat-form-field>
                                                     </td>
 
-                                                    <td *ngIf="!asset.editMode" class="text-nowrap">{{ asset.installments | integerValue }}</td>
+                                                    <td *ngIf="!asset.editMode" class="text-nowrap">{{
+                                                        asset.installments | integerValue }}</td>
                                                     <td *ngIf="asset.editMode">
                                                         <mat-form-field appearance="outline">
                                                             <mat-label>Parcelas</mat-label>
-                                                            <input matInput [(ngModel)]="edittedAsset.installments" integerNumber [maxValue]="999999" (keydown.enter)="saveRow(asset)">
+                                                            <input matInput [(ngModel)]="edittedAsset.installments"
+                                                                integerNumber [maxValue]="999999"
+                                                                (keydown.enter)="saveRow(asset)">
                                                         </mat-form-field>
                                                     </td>
 
-                                                    <td *ngIf="!asset.editMode" class="text-nowrap">{{ asset.amount | currencyValue }}</td>
+                                                    <td *ngIf="!asset.editMode" class="text-nowrap">{{ asset.amount |
+                                                        currencyValue }}</td>
                                                     <td *ngIf="asset.editMode">
                                                         <mat-form-field appearance="outline">
-                                                          <mat-label>Valor</mat-label>
-                                                          <span matPrefix class="currency-prefix">R$</span>
-                                                          <input type="text" matInput [(ngModel)]="edittedAsset.amount" doubleNumber [maxValue]="99999999999999" (keydown.enter)="saveRow(asset)">
+                                                            <mat-label>Valor</mat-label>
+                                                            <span matPrefix class="currency-prefix">R$</span>
+                                                            <input type="text" matInput
+                                                                [(ngModel)]="edittedAsset.amount" doubleNumber
+                                                                [maxValue]="9999999999999"
+                                                                (keydown.enter)="saveRow(asset)">
                                                         </mat-form-field>
-                                                      </td>
+                                                    </td>
 
                                                     <td *ngIf="!asset.editMode" class="text-nowrap">
                                                         <button mat-icon-button (click)="editRow(asset)">

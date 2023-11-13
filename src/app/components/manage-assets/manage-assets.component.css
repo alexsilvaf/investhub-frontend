@@ -1,12 +1,15 @@
-.icon-font{
+.icon-font {
     font-size: 20px;
 }
 
 .currency-prefix {
-    display: inline-block; /* Define como um elemento em bloco para ajustar a margem */
-    vertical-align: middle; /* Alinha verticalmente ao centro */
-    margin-right: 8px; /* Ajusta a margem direita para alinhar com o campo de entrada */
-}  
+    display: inline-block;
+    /* Define como um elemento em bloco para ajustar a margem */
+    vertical-align: middle;
+    /* Alinha verticalmente ao centro */
+    margin-right: 8px;
+    /* Ajusta a margem direita para alinhar com o campo de entrada */
+}
 
 ::ng-deep .custom-snackbar {
     background-color: rgb(208, 100, 100) !important;
@@ -19,42 +22,33 @@
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-prefix,
 .mat-form-field-appearance-outline .mat-form-field-suffix {
-  top: unset !important;
+    top: unset !important;
 }
 
-::ng-deep mat-form-field > .mat-form-field-wrapper  > .mat-form-field-flex > .mat-form-field-infix {
-    display: flex;
+::ng-deep .mat-form-field.date-picker>.mat-form-field-wrapper>.mat-form-field-flex {
+    padding-top: 0.75rem;
 }
 
-::ng-deep mat-form-field#date > .mat-form-field-wrapper  > .mat-form-field-flex > .mat-form-field-infix > .mat-date-range-input-hide-placeholders{
-    display: flex;
+mat-button-toggle-group {
+    margin-left: 12px;
 }
 
-::ng-deep mat-form-field#date > .mat-form-field-wrapper  > .mat-form-field-flex > .mat-form-field-infix > mat-date-range-input {
-    align-items: center;
+.my-chart {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
 }
 
-::ng-deep mat-form-field#date > .mat-form-field-wrapper  > .mat-form-field-flex > .mat-form-field-infix > mat-date-range-input > .mat-date-range-input-container {
-    margin-top: 0px;
+.selected {
+    background-color: rgba(79, 177, 79, 0.8);
+    color: white;
+    margin: 0rem 1rem;
+    border: 1px solid rgba(79, 177, 79, 0.8);
 }
 
-::ng-deep mat-form-field#date > .mat-form-field-wrapper  > .mat-form-field-flex > .mat-form-field-infix > .mat-date-range-input > .mat-date-range-input-container.cdk-focused {
-    margin-top: 10px;
-}
-
-::ng-deep mat-form-field#date > .mat-form-field-wrapper  > .mat-form-field-flex > .mat-form-field-infix > .mat-form-field-label-wrapper{
-    top: 0px;
-}
-
-::ng-deep mat-form-field.mat-form-field-appearance-standard.input-text > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix {
-    padding: 15px;
-    border-top: none;
-}
-
-::ng-deep .mat-form-field-appearance-standard.input-text .mat-form-field-label {
-    margin-top: 0;
-}
-
-::ng-deep mat-form-field.mat-form-field-appearance-standard.input-text > .mat-form-field-wrapper {
-    margin-top: 20px;
+.not-selected {
+    background-color: white;
+    color: black;
+    margin: 0rem 1rem;
+    border: 1px solid rgba(144, 238, 144, 1);
 }
