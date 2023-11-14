@@ -1,3 +1,2 @@
 [build]
-  command = "npm install --legacy-peer-deps && npm run build --configuration production"
   publish = "path/to/investhub-frontend/build/output"
