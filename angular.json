@@ -53,8 +53,8 @@
               "optimization": {
                 "scripts": true,
                 "styles": {
-                  "minify": false,
-                  "inlineCritical": false
+                  "minify": true,
+                  "inlineCritical": true
                 },
                 "fonts": true
               },
@@ -84,8 +84,7 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true,
-              "outputHashing": "all"
+              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"

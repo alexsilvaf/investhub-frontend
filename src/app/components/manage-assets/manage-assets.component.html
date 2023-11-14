@@ -17,8 +17,18 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div style="height: 20rem">
-                            <canvas #assetTypeChart class="my-chart"></canvas>
+                        <div style="height: 20rem" class="d-flex">
+                            <canvas #assetTypeChart class="my-chart" class="col-6"></canvas>
+                            <div class="col-6 py-5">
+                                <div class="row">
+                                    <span class="col-6 h4">Receita do mês:</span>
+                                    <span class="col-6 h4">{{6300 | currencyValue}}</span>
+                                </div>
+                                <div class="row">
+                                    <span class="col-6 h4">Receita do ano:</span>
+                                    <span class="col-6 h4">{{80000 | currencyValue}}</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="table-responsive">
                             <mat-tab-group (selectedTabChange)="onTabChanged($event)"

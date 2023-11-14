@@ -15,7 +15,15 @@ export class AssetService {
   
     for (let i = 0; i < randomLength; i++) {
       const randomCategoryType = Object.values(CategoryType)[Math.floor(Math.random() * Object.values(CategoryType).length)];
-      const randomAssetType = Object.values(AssetType)[Math.floor(Math.random() * Object.values(AssetType).length)];
+      let assetTypeList = Object.values(AssetType)
+      
+      if(randomCategoryType == CategoryType.RECEIVE){
+        assetTypeList = assetTypeList.filter((assetType) => assetType != AssetType.CREDIT_CARD && assetType != AssetType.INVESTMENT)
+      } else {
+        assetTypeList = assetTypeList.filter((assetType) => assetType != AssetType.RECEIVABLE && assetType != AssetType.LOAN)
+      }
+
+      const randomAssetType = assetTypeList[Math.floor(Math.random() * assetTypeList.length)];
   
       // Data aleatória no último ano
       const endDate = new Date();

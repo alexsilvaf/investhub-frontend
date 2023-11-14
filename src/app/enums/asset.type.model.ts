@@ -1,8 +1,8 @@
 export enum AssetType {
-    RECEIVABLE = 'Recebivel',
-    LOAN = 'Emprestimo',
+    RECEIVABLE = 'Recebível',
+    LOAN = 'Empréstimo',
     INVESTMENT = 'Investimento',
-    DEBT = 'Cartão de Crédito',
+    CREDIT_CARD = 'Cartão de Crédito',
     OTHER = 'Outros'
 }
   

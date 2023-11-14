@@ -76,7 +76,7 @@ export class HomeComponent implements AfterViewInit {
       this.colors = this.receiveList.map((_, index) => this.colorService.getColorForIndex(index));
 
       var myReceiveExpenseChart = new Chart(receiveExpenseChart, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
           datasets: [{
             data: [this.totalExpense, this.totalReceive],
@@ -92,8 +92,8 @@ export class HomeComponent implements AfterViewInit {
             tooltip: {
               callbacks: {
                 label: function(context) {
-                  // Você pode modificar o que é mostrado na tooltip aqui se necessário
-                  return context.label + ': ' + context.formattedValue;
+                  let label = context.dataIndex == 0 ? 'Despesas' : 'Receitas';
+                  return label + ': ' + context.formattedValue;
                 }
               }
             }

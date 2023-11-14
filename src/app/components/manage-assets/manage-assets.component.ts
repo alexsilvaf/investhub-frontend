@@ -52,6 +52,7 @@ export class ManageAssetsComponent implements OnInit, AfterViewInit {
 
     sessionStorage.removeItem('savedState');
     this.updateChartData();
+    this.updateAssetTypes();
   }
 
   ngAfterViewInit() {
@@ -75,7 +76,8 @@ export class ManageAssetsComponent implements OnInit, AfterViewInit {
 
   onTabChanged(event: MatTabChangeEvent) {
     this.selectedCategoryType = this.categoryTypes[event.index];
-    this.createChart();
+    this.updateChartData();
+    this.updateAssetTypes();
     this.assets?.map(asset => asset.editMode = false);
   }
 
@@ -93,9 +95,8 @@ export class ManageAssetsComponent implements OnInit, AfterViewInit {
         data: {
           datasets: [{
             data: this.totalValuesByCategory,
-            backgroundColor: this.getBackgroundColor(false),
-            borderColor: this.getBackgroundColor(true),
-            borderWidth: 1
+            backgroundColor: this.getBackgroundColor(),
+            borderWidth: 0
           }]
         },
         options: {
@@ -108,25 +109,14 @@ export class ManageAssetsComponent implements OnInit, AfterViewInit {
             tooltip: {
               callbacks: {
                 label: function(context) {
-                  let label = context.label || '';
-                  console.log(context)
+                  // Você pode modificar o que é mostrado na tooltip aqui se necessário
+                  let label = context.dataIndex == 0 ? 'Despesas' : 'Receitas';
                   if (label) {
                     label += ': ';
                   }
-                  label += context.parsed + '%';
+                  label += context.formattedValue;
                   return label;
                 }
-              }
-            }
-          },
-          scales: {
-            y: {
-              display: false, // Remove as legendas do eixo y
-              beginAtZero: true
-            },
-            x: {
-              grid: {
-                display: false // Remove as linhas de grade do eixo x
               }
             }
           }
@@ -135,19 +125,11 @@ export class ManageAssetsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getBackgroundColor(isBorder) {
+  getBackgroundColor() {
     if(this.selectedCategoryType === CategoryType.RECEIVE) {
-      if(isBorder){
-        return ['rgba(0, 0, 0, 0)', 'rgba(144, 238, 144)'];
-      } else {
-        return ['rgba(0, 0, 0, 0)', 'rgba(144, 238, 144, 0.4)'];
-      }
+        return ['rgba(0, 0, 0, 0)', 'rgb(94, 208, 144)'];
     } else {
-      if(isBorder){
-        return ['rgba(255, 0, 0)', 'rgba(0, 0, 0, 0)'];
-      } else {
-        return ['rgba(255, 0, 0, 0.4)', 'rgba(0, 0, 0, 0)'];
-      }
+        return ['rgb(208, 100, 100)', 'rgba(0, 0, 0, 0)'];
     }
   }
   
@@ -172,19 +154,30 @@ export class ManageAssetsComponent implements OnInit, AfterViewInit {
     }
   
     // Calcula a porcentagem que o total selecionado representa do total geral
-    const porcentagemSelecionada = (totalSelecionado / totalGeral) * 100;
-    const porcentagemNaoSelecionada = 100 - porcentagemSelecionada;
+    const quantiaRestante = totalGeral - totalSelecionado;
   
     if(this.selectedCategoryType === CategoryType.RECEIVE) {
     // Atualiza o gráfico com a porcentagem calculada
-    this.totalValuesByCategory = [porcentagemNaoSelecionada, porcentagemSelecionada];
+    this.totalValuesByCategory = [quantiaRestante, totalSelecionado];
     } else {
-      this.totalValuesByCategory = [porcentagemSelecionada, porcentagemNaoSelecionada];
+      this.totalValuesByCategory = [totalSelecionado, quantiaRestante];
     }
 
     if(this.totalAreaChart) {
       this.totalAreaChart.data.datasets[0].data = this.totalValuesByCategory;
+      this.totalAreaChart.data.datasets.forEach((dataset) => {
+        dataset.backgroundColor = this.getBackgroundColor();
+      });
       this.totalAreaChart.update();
+    }
+  }
+
+  updateAssetTypes() {
+    this.assetTypes = Object.values(AssetType);
+    if(this.selectedCategoryType === CategoryType.RECEIVE) {
+      this.assetTypes = this.assetTypes.filter(type => type !== AssetType.CREDIT_CARD && type !== AssetType.INVESTMENT);
+    } else {
+      this.assetTypes = this.assetTypes.filter(type => type !== AssetType.RECEIVABLE && type !== AssetType.LOAN);
     }
   }
  
