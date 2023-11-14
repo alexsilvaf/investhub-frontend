@@ -138,15 +138,15 @@ export class ManageAssetsComponent implements OnInit, AfterViewInit {
   getBackgroundColor(isBorder) {
     if(this.selectedCategoryType === CategoryType.RECEIVE) {
       if(isBorder){
-        return ['rgba(144, 238, 144)', 'rgba(0, 0, 0, 0)'];
+        return ['rgba(0, 0, 0, 0)', 'rgba(144, 238, 144)'];
       } else {
-        return ['rgba(144, 238, 144, 0.4)', 'rgba(0, 0, 0, 0)'];
+        return ['rgba(0, 0, 0, 0)', 'rgba(144, 238, 144, 0.4)'];
       }
     } else {
       if(isBorder){
-        return ['rgba(0, 0, 0, 0)', 'rgba(255, 0, 0)'];
+        return ['rgba(255, 0, 0)', 'rgba(0, 0, 0, 0)'];
       } else {
-        return ['rgba(0, 0, 0, 0)', 'rgba(255, 0, 0, 0.4)'];
+        return ['rgba(255, 0, 0, 0.4)', 'rgba(0, 0, 0, 0)'];
       }
     }
   }
@@ -177,9 +177,9 @@ export class ManageAssetsComponent implements OnInit, AfterViewInit {
   
     if(this.selectedCategoryType === CategoryType.RECEIVE) {
     // Atualiza o gráfico com a porcentagem calculada
-    this.totalValuesByCategory = [porcentagemSelecionada, porcentagemNaoSelecionada];
+    this.totalValuesByCategory = [porcentagemNaoSelecionada, porcentagemSelecionada];
     } else {
-      this.totalValuesByCategory = [porcentagemNaoSelecionada, porcentagemSelecionada];
+      this.totalValuesByCategory = [porcentagemSelecionada, porcentagemNaoSelecionada];
     }
 
     if(this.totalAreaChart) {
